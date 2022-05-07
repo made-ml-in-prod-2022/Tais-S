@@ -1,6 +1,7 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.pipeline import Pipeline
+import pickle
 
 
 def train_model(features, target, train_params):
@@ -24,3 +25,9 @@ def evaluate_model(predictions, target):
 
 def create_inference_pipeline(model, transformer):
     return Pipeline([("features_part", transformer), ("model_part", model)])
+
+
+def serialize_model(model, model_output):
+    with open(model_output, "wb") as f:
+        pickle.dump(model, f)
+    return model_output

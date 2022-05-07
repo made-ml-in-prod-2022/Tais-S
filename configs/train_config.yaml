@@ -1,0 +1,21 @@
+input_data_path: "data/raw/train.csv"
+output_model_path: "models/model.pkl"
+metric_path: "models/metrics.json"
+splitting_params:
+  val_size: 0.2
+  random_state: 2022
+feature_params:
+  categorical_features:
+    - "gender"
+    - "ever_married"
+    - "work_type"
+    - "Residence_type"
+    - "smoking_status"
+  numerical_features:
+    - "id"
+    - "age"
+    - "hypertension"
+    - "heart_disease"
+    - "avg_glucose_level"
+    - "bmi"
+  target_col: "stroke"

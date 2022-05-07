@@ -1,10 +1,12 @@
 import json
+import click
+
 
 from ml_project.entities.train_pipeline_params import read_training_pipeline_params
 from ml_project.data import read_data, split_train_val_data
 from ml_project.features.build_features import extract_target, build_transformer
 from ml_project.features import make_features
-from ml_project.models import train_model, predict_model, evaluate_model
+from ml_project.models import train_model, predict_model, evaluate_model, serialize_model
 from ml_project.models.model_fit_predict import create_inference_pipeline
 
 
@@ -37,3 +39,17 @@ def run_train_pipeline(training_pipeline_params):
     metrics = evaluate_model(predictions, val_target)
     with open(training_pipeline_params.metric_path, "w") as metric_file:
         json.dump(metrics, metric_file)
+
+    path_to_model = serialize_model(inference_pipeline, training_pipeline_params.output_model_path)
+
+    return path_to_model, metrics
+
+
+@click.command(name="train_pipeline")
+@click.argument("config_path")
+def train_pipeline_command(config_path: str):
+    train_pipeline(config_path)
+
+
+if __name__ == "__main__":
+    train_pipeline_command()
