@@ -8,7 +8,7 @@ def read_data(path):
 
 
 def split_train_val_data(df, splitting_params):
-    train_df, val_df = train_test_split(
-        df, test_size=splitting_params.val_size, random_state=splitting_params.random_state
-    )
+    train_df, val_df = train_test_split(df,
+                                        test_size=splitting_params.val_size,
+                                        random_state=splitting_params.random_state)
     return train_df, val_df

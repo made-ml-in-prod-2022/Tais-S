@@ -12,10 +12,12 @@ feature_params:
     - "Residence_type"
     - "smoking_status"
   numerical_features:
-    - "id"
     - "age"
     - "hypertension"
     - "heart_disease"
     - "avg_glucose_level"
     - "bmi"
-  target_col: "stroke"
+  features_to_drop:
+    - "id"
+  target_col:
+    - "stroke"

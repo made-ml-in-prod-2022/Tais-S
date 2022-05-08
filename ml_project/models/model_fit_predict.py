@@ -1,11 +1,13 @@
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.pipeline import Pipeline
 import pickle
 
 
 def train_model(features, target, train_params):
-    model = KNeighborsClassifier(n_neighbors=train_params.n_neighbors)
+    model = SVC(kernel=train_params.kernel_type,
+                gamma=train_params.gamma,
+                C=train_params.inverted_regularization)
     model.fit(features, target)
     return model
 

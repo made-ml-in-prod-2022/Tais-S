@@ -3,7 +3,7 @@ import pytest
 
 @pytest.fixture()
 def dataset_path():
-    return "tests/data_test.csv"
+    return "tests/synthetic_data.csv"
 
 
 @pytest.fixture()
@@ -25,10 +25,14 @@ def categorical_features():
 @pytest.fixture
 def numerical_features():
     return [
-        "id",
         "age",
         "hypertension",
         "heart_disease",
         "avg_glucose_level",
         "bmi"
     ]
+
+
+@pytest.fixture()
+def features_to_drop():
+    return ["id"]
