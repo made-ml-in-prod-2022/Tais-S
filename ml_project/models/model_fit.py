@@ -1,13 +1,19 @@
 from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.pipeline import Pipeline
 import pickle
 
 
 def train_model(features, target, train_params):
-    model = SVC(kernel=train_params.kernel_type,
-                gamma=train_params.gamma,
-                C=train_params.inverted_regularization)
+    if train_params.model_type == "SVC":
+        model = SVC(kernel=train_params.kernel_type,
+                    gamma=train_params.gamma,
+                    C=train_params.inverted_regularization)
+    elif train_params.model_type == "KNeighborsClassifier":
+        model = KNeighborsClassifier(n_neighbors=train_params.n_neighbors)
+    else:
+        raise NotImplementedError()
     model.fit(features, target)
     return model
 
@@ -27,6 +33,12 @@ def evaluate_model(predictions, target):
 
 def create_inference_pipeline(model, transformer):
     return Pipeline([("features_part", transformer), ("model_part", model)])
+
+
+def serialize_transformer(transformer, transformer_output):
+    with open(transformer_output, "wb") as f:
+        pickle.dump(transformer, f)
+    return transformer_output
 
 
 def serialize_model(model, model_output):

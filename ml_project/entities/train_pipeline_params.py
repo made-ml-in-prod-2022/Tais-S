@@ -9,8 +9,9 @@ import yaml
 
 @dataclass()
 class TrainingPipelineParams:
-    input_data_path: str
+    train_data_path: str
     output_model_path: str
+    transformer_path: str
     metric_path: str
     splitting_params: SplittingParams
     feature_params: FeatureParams
@@ -20,7 +21,7 @@ class TrainingPipelineParams:
 TrainingPipelineParamsSchema = class_schema(TrainingPipelineParams)
 
 
-def read_training_pipeline_params(path: str) -> TrainingPipelineParams:
+def read_training_pipeline_params(path):
     with open(path, "r") as input_stream:
         schema = TrainingPipelineParamsSchema()
         return schema.load(yaml.safe_load(input_stream))

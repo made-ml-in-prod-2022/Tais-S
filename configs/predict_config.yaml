@@ -1,12 +1,7 @@
-train_data_path: "data/raw/train_df.csv"
+test_data_path: "data/raw/test_df.csv"
+predictions_path: "models/predictions.csv"
 output_model_path: "models/model.pkl"
 transformer_path: "models/transformer.pkl"
-metric_path: "models/metrics.json"
-splitting_params:
-  val_size: 0.2
-  random_state: 2022
-train_params:
-  model_type: "SVC"
 feature_params:
   categorical_features:
     - "gender"
