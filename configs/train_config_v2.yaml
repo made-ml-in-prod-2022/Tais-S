@@ -1,0 +1,25 @@
+train_data_path: "data/raw/train_df.csv"
+output_model_path: "models/model.pkl"
+metric_path: "models/metrics.json"
+transformer_path: "models/transformer.pkl"
+splitting_params:
+  val_size: 0.3
+  random_state: 2022
+train_params:
+  model_type: "KNeighborsClassifier"
+feature_params:
+  categorical_features:
+    - "gender"
+    - "ever_married"
+    - "work_type"
+    - "Residence_type"
+    - "smoking_status"
+  numerical_features:
+    - "age"
+    - "hypertension"
+    - "heart_disease"
+    - "avg_glucose_level"
+    - "bmi"
+  features_to_drop:
+    - "id"
+  target_col: "stroke"

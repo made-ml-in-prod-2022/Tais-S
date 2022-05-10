@@ -1,0 +1,20 @@
+test_data_path: "data/raw/test_df.csv"
+predictions_path: "models/predictions.csv"
+output_model_path: "models/model.pkl"
+transformer_path: "models/transformer.pkl"
+feature_params:
+  categorical_features:
+    - "gender"
+    - "ever_married"
+    - "work_type"
+    - "Residence_type"
+    - "smoking_status"
+  numerical_features:
+    - "age"
+    - "hypertension"
+    - "heart_disease"
+    - "avg_glucose_level"
+    - "bmi"
+  features_to_drop:
+    - "id"
+  target_col: "stroke"
