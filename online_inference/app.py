@@ -67,7 +67,6 @@ def health():
 
 @app.get("/predict", response_model=List[StrokeResponse])
 def predict(request: StrokeModel):
-    print('req', request)
     return make_predict(request.data, request.features, model)
 
 
