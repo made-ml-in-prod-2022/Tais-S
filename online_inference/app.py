@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class StrokeModel(BaseModel):
-    data: List[conlist(Union[float, str, None])] # , min_items=10, max_items=11
+    data: List[conlist(Union[float, str, None], min_items=10, max_items=11)]
     features: List[str]
 
 
