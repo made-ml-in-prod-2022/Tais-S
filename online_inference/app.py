@@ -12,12 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 class StrokeModel(BaseModel):
-    data: List[conlist(Union[float, str, None], min_items=10, max_items=11)]
+    data: List[conlist(Union[float, str, None], min_items=10, max_items=10)]
     features: List[str]
 
 
 class StrokeResponse(BaseModel):
-    # id: int
     stroke: int
 
 
@@ -46,13 +45,11 @@ def root():
 @app.on_event("startup")
 def load_model():
     global model
-    path_to_model = "online_inference/models/model.pkl"
-    # path_to_model = os.getenv("PATH_TO_MODEL")
+    path_to_model = os.getenv("PATH_TO_MODEL")
     if path_to_model is None:
-        # err = f"PATH_TO_MODEL {path_to_model} is None"
-        path_to_model = "online_inference/models/model.pkl"
-        # logger.error(err)
-        # raise RuntimeError(err)
+        err = f"PATH_TO_MODEL {path_to_model} is None"
+        logger.error(err)
+        raise RuntimeError(err)
 
     model = load_object(path_to_model)
 
