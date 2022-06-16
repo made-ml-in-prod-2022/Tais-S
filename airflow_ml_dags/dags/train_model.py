@@ -19,29 +19,28 @@ with DAG(
         start_date=pendulum.today('UTC').add(days=-1),
 ) as dag:
 
-    preprocess = DockerOperator(
+    split = DockerOperator(
         image="airflow-model-training",
-        command="--input-dir /data/raw/{{ ds }} --output-dir /data/processed/{{ ds }}2",
-        task_id="docker-airflow-preprocess",
+        command="--input-dir /raw/{{ ds }} --output-dir /split/{{ ds }}",
+        # network_mode="bridge",
+        task_id="docker-airflow-split",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source="D:/ML files/MADE_2sem/ML in prod/airflow_ml_dags/data/", target="/data", type='bind')]
     )
 
-    split = DockerOperator(
+    transform = DockerOperator(
         image="airflow-model-training",
-        command="/data/raw/{{ ds }}",
-        network_mode="bridge",
-        task_id="docker-airflow-split",
+        command="--input-dir /split/{{ ds }} --output-dir /processed/{{ ds }} --transformer-dir /models/{{ ds }}",
+        task_id="docker-airflow-transform",
         do_xcom_push=False,
         mount_tmp_dir=False,
-        # !!! HOST folder(NOT IN CONTAINER) replace with yours !!!
         mounts=[Mount(source="D:/ML files/MADE_2sem/ML in prod/airflow_ml_dags/data/", target="/data", type='bind')]
     )
 
     train = DockerOperator(
         image="airflow-model-training",
-        command="--input-dir /data/processed/{{ ds }} --output-dir /data/predicted/{{ ds }}",
+        command="--input-dir /processed/{{ ds }} --output-dir /models/{{ ds }}",
         task_id="docker-airflow-train",
         do_xcom_push=False,
         mount_tmp_dir=False,
@@ -50,11 +49,11 @@ with DAG(
 
     validate = DockerOperator(
         image="airflow-model-training",
-        command="--input-dir /data/processed/{{ ds }} --output-dir /data/predicted/{{ ds }}",
+        command="--input-dir /split/{{ ds }} --output-dir /models/{{ ds }}",
         task_id="docker-airflow-validate",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source="D:/ML files/MADE_2sem/ML in prod/airflow_ml_dags/data/", target="/data", type='bind')]
     )
+    split >> transform >> train >> validate
 
-    preprocess >> split >> train >> validate
