@@ -62,12 +62,13 @@ def preprocess(input_dir, output_dir, transformer_dir):
     transformer.fit(train_data)
     train_features = transformer.transform(train_data)
     train_features, train_target = SMOTE().fit_resample(train_features, train_target)
+    os.makedirs(transformer_dir, exist_ok=True)
     with open(os.path.join(transformer_dir, "transformer.pkl"), "wb") as f:
         pickle.dump(transformer, f)
 
     os.makedirs(output_dir, exist_ok=True)
-    train_features.to_csv(os.path.join(output_dir, "train_features.csv"))
-    train_target.to_csv(os.path.join(output_dir, "train_target.csv"))
+    pd.DataFrame(train_features).to_csv(os.path.join(output_dir, "train_features.csv"), index=False)
+    pd.DataFrame(train_target).to_csv(os.path.join(output_dir, "train_target.csv"), index=False)
 
 
 if __name__ == '__main__':

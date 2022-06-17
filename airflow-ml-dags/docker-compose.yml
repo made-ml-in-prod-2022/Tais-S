@@ -69,11 +69,13 @@ services:
     environment: *airflow_environment
     command: scheduler
 
-  split:
-    image: skrivva/airflow-hw3
-    command: python app.py
-    volumes:
-      - ./entities/split.py:/root/app.py
+#  split:
+#    image: skrivva/airflow-hw3
+#    command: python app.py
+#    working_dir: /root/app
+#    volumes:
+#      - ./entities/split.py:/root/app/app.py
+#      - ./data/raw:/root/app/raw
 
 #  transform:
 #    image: skrivva/airflow-hw3
@@ -96,11 +98,29 @@ services:
 #    restart: "no"
 #
 #
-#  preprocess:
-#    build:
-#      context: images/airflow-preprocess
-#    image: airflow-preprocess
-#    restart: "no"
+  split:
+    build:
+      context: images/airflow-model-split
+    image: airflow-model-split
+    restart: "no"
+
+  transform:
+    build:
+      context: images/airflow-model-transform
+    image: airflow-model-transform
+    restart: "no"
+
+  train:
+    build:
+      context: images/airflow-model-train
+    image: airflow-model-train
+    restart: "no"
+
+  validate:
+    build:
+      context: images/airflow-model-validate
+    image: airflow-model-validate
+    restart: "no"
 
 
 volumes:

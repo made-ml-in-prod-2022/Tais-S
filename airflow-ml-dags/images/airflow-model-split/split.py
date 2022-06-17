@@ -16,10 +16,10 @@ def split(input_dir, output_dir):
                                                                       random_state=2022)
 
     os.makedirs(output_dir, exist_ok=True)
-    train_data.to_csv(os.path.join(output_dir, "train_data.csv"))
-    val_data.to_csv(os.path.join(output_dir, "val_data.csv"))
-    train_target.to_csv(os.path.join(output_dir, "train_target.csv"))
-    val_target.to_csv(os.path.join(output_dir, "val_target.csv"))
+    train_data.to_csv(os.path.join(output_dir, "train_data.csv"), index=False)
+    val_data.to_csv(os.path.join(output_dir, "val_data.csv"), index=False)
+    train_target.to_csv(os.path.join(output_dir, "train_target.csv"), index=False)
+    val_target.to_csv(os.path.join(output_dir, "val_target.csv"), index=False)
 
 
 if __name__ == '__main__':

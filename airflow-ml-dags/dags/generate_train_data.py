@@ -56,7 +56,7 @@ with DAG(
 
     create_dir = BashOperator(
         task_id="create_directory",
-        bash_command="pwd && mkdir -p /opt/airflow/data/raw/{{ds}}",
+        bash_command="mkdir -p /opt/airflow/data/raw/{{ds}} && chmod 777 /opt/airflow/data/raw/{{ds}} -R",
     )
 
     generate_data = PythonOperator(
