@@ -9,12 +9,12 @@ import click
 @click.option("--input-dir")
 @click.option("--output-dir")
 def train(input_dir, output_dir):
-    train_data = pd.read_csv(os.path.join(input_dir, "train_features.csv"))
-    train_features = pd.read_csv(os.path.join(input_dir, "train_target.csv"))
-    model = SVC(kernel="SVC",
-                gamma="sigmoid",
+    train_features = pd.read_csv(os.path.join(input_dir, "train_features.csv"))
+    train_target = pd.read_csv(os.path.join(input_dir, "train_target.csv"))
+    model = SVC(kernel="sigmoid",
+                gamma=0.001,
                 C=100)
-    model.fit(train_data, train_features)
+    model.fit(train_features, train_target)
 
     os.makedirs(output_dir, exist_ok=True)
     with open(os.path.join(output_dir, "model.pkl"), "wb") as f:
