@@ -11,7 +11,6 @@ import click
 def predict(data_dir, output_dir):
     data = pd.read_csv(os.path.join(data_dir, "data.csv"))
     path = os.getenv("path_to_model")
-    print("===================path:", path)
     with open(os.path.join(path, "model.pkl"), "rb") as f:
         model = pickle.load(f)
     with open(os.path.join(path, "transformer.pkl"), "rb") as f:

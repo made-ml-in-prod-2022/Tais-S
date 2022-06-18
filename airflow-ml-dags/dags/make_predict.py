@@ -5,11 +5,17 @@ from docker.types import Mount
 import pendulum
 
 
+def custom_failure_function(context):
+    dag_run = context.get("dag_run")
+    task_instances = dag_run.get_task_instances()
+    print("============================================ Task instances failed:", task_instances)
+
+
 default_args = {
     "owner": "airflow",
-    "email": ["airflow@example.com"],
     "retries": 1,
-    "retry_delay": timedelta(minutes=5),
+    "retry_delay": timedelta(minutes=1),
+    'on_failure_callback': custom_failure_function,
 }
 
 
@@ -25,6 +31,7 @@ with DAG(
         command="--data-dir /data/raw/{{ ds }} --output-dir /data/predictions/{{ ds }}",
         docker_url='unix://var/run/docker.sock',
         task_id="docker-airflow-predict",
+        environment={"path_to_model": "/data/models/2022-06-18"},
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[

@@ -4,8 +4,21 @@ import pendulum
 from docker.types import Mount
 
 
+def custom_failure_function(context):
+    dag_run = context.get("dag_run")
+    task_instances = dag_run.get_task_instances()
+    print("============================================ Task instances failed:", task_instances)
+
+
+default_args = {
+    "owner": "airflow",
+    'on_failure_callback': custom_failure_function,
+}
+
+
 with DAG(
     dag_id="generate_train_data",
+    default_args=default_args,
     start_date=pendulum.today('UTC').add(days=-1),
     schedule_interval="@daily",
     max_active_runs=1,
