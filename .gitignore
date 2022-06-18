@@ -1,0 +1,8 @@
+.idea
+py-cache
+airflow-ml-dags/data/raw/20*
+airflow-ml-dags/data/models
+airflow-ml-dags/data/predictions
+airflow-ml-dags/data/processed
+airflow-ml-dags/data/split
+

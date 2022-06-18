@@ -23,7 +23,6 @@ with DAG(
         image= "airflow-model-split",
         command="--input-dir /data/raw/{{ ds }} --output-dir /data/split/{{ ds }}",
         docker_url='unix://var/run/docker.sock',
-        # network_mode="bridge",
         task_id="docker-airflow-split",
         do_xcom_push=False,
         mount_tmp_dir=False,
