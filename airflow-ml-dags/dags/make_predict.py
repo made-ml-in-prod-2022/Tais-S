@@ -1,6 +1,7 @@
 from datetime import timedelta
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
+from airflow.contrib.sensors.file_sensor import FileSensor
 from docker.types import Mount
 import pendulum
 
@@ -26,6 +27,10 @@ with DAG(
         start_date=pendulum.today('UTC').add(days=-1),
 ) as dag:
 
+    sensor = FileSensor(task_id="file_sensor",
+                        poke_interval=30,
+                        filepath="/opt/airflow/data/raw/{{ ds }}")
+
     predict = DockerOperator(
         image="airflow-model-predict",
         command="--data-dir /data/raw/{{ ds }} --output-dir /data/predictions/{{ ds }}",
@@ -37,3 +42,5 @@ with DAG(
         mounts=[
             Mount(source="D:/ML files/MADE_2sem/ML in prod/Tais-S/airflow-ml-dags/data/", target="/data", type='bind')]
     )
+
+    sensor >> predict

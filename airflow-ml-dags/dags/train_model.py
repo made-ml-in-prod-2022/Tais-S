@@ -1,6 +1,7 @@
 from datetime import timedelta
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
+from airflow.contrib.sensors.file_sensor import FileSensor
 from docker.types import Mount
 import pendulum
 
@@ -25,6 +26,10 @@ with DAG(
         schedule_interval="@weekly",
         start_date=pendulum.today('UTC').add(days=-1),
 ) as dag:
+
+    sensor = FileSensor(task_id="file_sensor",
+                        poke_interval=30,
+                        filepath="/opt/airflow/data/raw/{{ ds }}")
 
     split = DockerOperator(
         image= "airflow-model-split",
@@ -65,5 +70,5 @@ with DAG(
         mount_tmp_dir=False,
         mounts=[Mount(source="D:/ML files/MADE_2sem/ML in prod/Tais-S/airflow-ml-dags/data/", target="/data", type='bind')]
     )
-    split >> transform >> train >> validate
 
+    sensor >> split >> transform >> train >> validate
