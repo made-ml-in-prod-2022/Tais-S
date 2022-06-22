@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inference-simple
+spec:
+  containers:
+    - name: inference-simple
+      image: skrivva/online_inference_image
+      ports:
+        - containerPort: 80
