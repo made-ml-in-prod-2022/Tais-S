@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inference-liveness-blue-green
+  name: inference-liveness-rolling-update
   labels:
-    app: inference-liveness-blue-green
+    app: inference-liveness-rolling-update
 spec:
   replicas: 6
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 6
-      maxUnavailable: 0
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
-      app: inference-liveness-blue-green
+      app: inference-liveness-rolling-update
   template:
     metadata:
-      name: inference-liveness-blue-green
+      name: inference-liveness-rolling-update
       labels:
-        app: inference-liveness-blue-green
+        app: inference-liveness-rolling-update
     spec:
       containers:
         - image: skrivva/online_inference_image
-          name: inference-liveness-blue-green
+          name: inference-liveness-rolling-update
           ports:
             - containerPort: 8000

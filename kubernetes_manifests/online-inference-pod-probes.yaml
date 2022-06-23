@@ -16,8 +16,8 @@ spec:
         httpGet:
           path: /healz
           port: 8000
-        initialDelaySeconds: 120
-        periodSeconds: 3
+        initialDelaySeconds: 10
+        periodSeconds: 8
       readinessProbe:
         httpGet:
           path: /healz
