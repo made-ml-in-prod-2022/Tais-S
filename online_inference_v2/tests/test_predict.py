@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from online_inference.app import app
+from online_inference_v2.app import app
 
 
 def test_predict():
