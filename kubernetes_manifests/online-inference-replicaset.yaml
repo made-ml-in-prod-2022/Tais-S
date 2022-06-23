@@ -3,7 +3,7 @@ kind: ReplicaSet
 metadata:
   name: inference-replicaset
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: inference-replicaset
